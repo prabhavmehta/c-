@@ -1,0 +1,66 @@
+// generate 100 no. between [1,15], find the frequency of each number and print the histogram of frequency of the numbers 
+#include<conio.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+
+int arr[15];
+
+void find_frequency(int number)
+{
+	arr[number-1]=arr[number-1] +1;
+}
+
+void main()
+{
+	srand(time(NULL));
+	int num,counter,big=0;
+	
+	for(counter=0;counter<15;counter++)
+		arr[counter]=0;
+
+	for(counter=0;counter<100;counter++)
+	{
+		num= ((rand()%15)+1);
+
+		find_frequency(num);
+	}
+
+	
+	for(counter=0;counter<15;counter++)
+		printf("frequency of %d is %d\n",counter+1,arr[counter]);
+	//frequency done
+	//printing start
+
+	big=arr[0];
+	for(counter=1;counter<15;counter++)
+	{
+		
+		if (big<arr[counter])
+			big=arr[counter];
+	}
+
+	printf("\n\n histogram of frequency \n\n");
+	for(big;big>0;big--)
+	{
+		printf("%d  ",big);
+		for(counter=0;counter<15;counter++)
+		{
+			//printf("%d  ",big);
+			if(arr[counter]>=big)
+				printf("*   ");
+			else
+				printf("    ");
+		}
+		printf("\n");
+	}
+	printf("\n   ");
+	for(counter=1;counter<10;counter++)
+		printf("%d   ",counter);
+
+	for(counter=10;counter<16;counter++)
+		printf("%d  ",counter);
+
+	getch();
+}
+		
