@@ -1,0 +1,108 @@
+#include<conio.h>
+#include<stdio.h>
+#include<math.h>
+#include<time.h>
+#include<stdlib.h>
+
+void main()
+{
+	srand(time(NULL));
+	int sig=0,nal=0,signal_bits=0,yes_1=0,counter=0,replace_1=0,replace_condition=0,random_track,toss_add=0,zero_changed=0,one_changed=0,loop=0;
+	float percentage=0,toss_binary=0,addition_variable,multiply_variable;
+	float *signal_orignal=NULL,*signal_orignal_copy=NULL;
+
+	for(loop=0;loop<7200;loop++)
+	{
+		sig=rand()%32001;
+		nal=rand()%32001;
+		signal_bits=sig+nal;
+		signal_orignal=(float*)calloc(signal_bits,sizeof(float));
+		signal_orignal_copy=(float*)calloc(signal_bits,sizeof(float));
+
+		for(counter=0;counter<signal_bits;counter++)
+		{
+			toss_binary=rand()%2;
+			*(signal_orignal+counter)=toss_binary;
+			*(signal_orignal_copy+counter)=toss_binary;
+		}
+
+		percentage=rand()%101;
+
+		for(counter=0;counter<signal_bits;counter++)
+		{
+			if(*(signal_orignal+counter)==1)
+			{
+				yes_1++;
+			}
+		}
+
+		replace_1=((percentage/100)*yes_1);
+
+		counter=0;
+		while(counter<replace_1)
+		{
+			random_track=rand()%signal_bits;
+			replace_condition=*(signal_orignal+random_track);
+			if(replace_condition==1)
+			{
+				*(signal_orignal+random_track)=0;
+				counter++;
+			}
+		}
+
+		counter=0;
+		toss_add=rand()%2;
+		if(toss_add==1)
+		{
+			addition_variable=rand()%101;
+			addition_variable=(addition_variable/100);
+		}
+			if(toss_add==0)
+		{
+			addition_variable=-(rand()%101);
+			addition_variable=(addition_variable/100);
+		}
+			for(counter=0;counter<signal_bits;counter++)
+			{
+				*(signal_orignal+counter)=(*(signal_orignal+counter)+addition_variable);
+			}
+
+			multiply_variable=rand()%100;
+			multiply_variable=multiply_variable/100;
+
+			for(counter=0;counter<signal_bits;counter++)
+			{
+					*(signal_orignal+counter)=(*(signal_orignal+counter)*multiply_variable);
+			}
+			
+			for(counter=0;counter<signal_bits;counter++)
+			{
+				if(*(signal_orignal+counter)>=0.500)
+					*(signal_orignal+counter)=1;
+				if(*(signal_orignal+counter)<0.500)
+					*(signal_orignal+counter)=0;
+			}
+
+			for(counter=0;counter<signal_bits;counter++)
+			{
+				if(*(signal_orignal_copy+counter)==0 && *(signal_orignal+counter)==1)
+				{
+					zero_changed++;
+				}
+
+				if(*(signal_orignal_copy+counter)==1 && *(signal_orignal+counter)==0)
+				{
+					one_changed++;
+				}
+			}
+			printf("zeroes channgred in ones are %d \n",zero_changed);
+			printf("ones channgred in zeroes are %d \n",one_changed);
+			zero_changed=0;
+			one_changed=0;
+			loop++;
+	}
+	printf("done");
+	getch();
+}
+
+
